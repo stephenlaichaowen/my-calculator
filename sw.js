@@ -1,5 +1,5 @@
 // SW Version
-const version = '1.3'
+const version = '1.6'
 const cacheName = 'calculator'
 
 // Static Cache - App Shell

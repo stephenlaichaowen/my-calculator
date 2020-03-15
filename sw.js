@@ -1,5 +1,6 @@
 // SW Version
-const version = '1.0'
+const version = '1.3'
+const cacheName = 'calculator'
 
 // Static Cache - App Shell
 const appAssets = [
@@ -12,7 +13,7 @@ const appAssets = [
 // SW Install
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(`static-${version}`)
+    caches.open(`${cacheName}-${version}`)
       .then(cache => cache.addAll(appAssets))
   )
 })
@@ -22,7 +23,7 @@ self.addEventListener('activate', e => {
   // Clean static cache
   let cleaned = caches.keys().then(keys => {
     keys.forEach(key => {
-      if (key !== `static-${version}` && key.match('static-')) {
+      if (key !== `${cacheName}-${version}` && key.match(`${cacheName}-`)) {
         return caches.delete(key)
       }
     })
@@ -49,7 +50,7 @@ const staticCache = req => {
     return fetch(req).then(networkRes => {
 
       // Update cache with new response
-      caches.open(`static-${version}`)
+      caches.open(`${cacheName}-${version}`)
       .then(cache => cache.put(req, networkRes))
 
       // Return Clone of Network Response
